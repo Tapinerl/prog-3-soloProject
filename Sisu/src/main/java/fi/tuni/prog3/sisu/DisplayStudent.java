@@ -15,9 +15,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
-
-/*
-    manages stuff in first tab (student info)
+/**
+* Class representing the UI component for managing student information
+* manages content on the first tab
 */
 public class DisplayStudent {
 
@@ -33,7 +33,7 @@ public class DisplayStudent {
     private boolean isLastNameFilled = false;
     private boolean isStudentNumberFilled = false;
     private boolean isStudyProgrammeSelected = false;
-
+    
     public DisplayStudent() {
         // Create UI elements
         formGrid = new GridPane();
@@ -57,6 +57,9 @@ public class DisplayStudent {
         formGrid.add(studyProgrammeComboBox, 1, 4);
     } 
     
+    /**
+     * Initializes the DisplayStudent UI component.
+    */
     public void initialize() {
         initProgramList();
         initListeners();
@@ -66,7 +69,10 @@ public class DisplayStudent {
         GridPane.setHalignment(submitButton, HPos.RIGHT);
         submitButton.setOnAction(event -> displayStudentInfo());
     }
-
+    
+    /**
+    * Applies styling to the UI elements in the component.
+    */
     private void styleUI() {
         formGrid.setHgap(10);
         formGrid.setVgap(10);
@@ -77,7 +83,9 @@ public class DisplayStudent {
         studentNumberField.setMaxWidth(200);
         studyProgrammeComboBox.setMaxWidth(200);
     }
-
+    /**
+    * Initializes the list of study programmes in the ComboBox.
+    */
     private void initProgramList() {
         try {
             DegreeModuleParser.fetchAllDegreeNames();
@@ -88,7 +96,9 @@ public class DisplayStudent {
             studyProgrammeComboBox.getItems().add(program);
         }
     }
-
+    /**
+    * Initializes the listeners for the UI elements in the component.
+    */
     private void initListeners() {
         studyProgrammeComboBox.setOnAction(event -> {
             Sisu.getDisplayPlan().updateView(studyProgrammeComboBox.getValue());
@@ -108,11 +118,15 @@ public class DisplayStudent {
             updateSubmitButtonState();
         });
     }
-
+    /**
+    * Updates the state of the submit button.
+    */
     private void updateSubmitButtonState() {
         submitButton.setDisable(!(isFirstNameFilled && isLastNameFilled && isStudentNumberFilled && isStudyProgrammeSelected));
     }
-
+    /**
+    * Displays the student information after the form is submitted.
+    */
     private void displayStudentInfo() {
         Sisu.getPrimaryView().getTabPlan().setDisable(false);
         studentInfoDisplay.getChildren().clear();
@@ -123,11 +137,17 @@ public class DisplayStudent {
         studentInfoDisplay.setSpacing(10);
         studentInfoDisplay.setPadding(new Insets(10, 10, 10, 10));
     }
-
+    /**
+    * Returns the main BorderPane containing the UI elements of the component.
+     * @return the main BorderPane of the component
+    */
     public BorderPane getView() {
         return mainPane;
     }
-
+    /**
+    * Sets the main BorderPane containing the UI elements of the component.
+     * @param mainPane the main BorderPane to be set
+    */
     public void setView(BorderPane mainPane) {
         this.mainPane = mainPane;
     }

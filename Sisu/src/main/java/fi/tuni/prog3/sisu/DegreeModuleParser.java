@@ -12,33 +12,58 @@ import com.google.gson.JsonSyntaxException;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
-/*
-    creates a string from JSON
-*/
+/**
+ * The DegreeModuleParser class is responsible for parsing JSON data related
+ * to degree modules and courses. It fetches degree names and degree details
+ * by ID, creates DegreeModule objects and stores them in a list.
+ */
 public class DegreeModuleParser {
 
     private static ArrayList<DegreeModule> courses = new ArrayList<>();
     private static ArrayList<String> namesOfProgramsList = new ArrayList<>();
-
+     /**
+     * Default constructor for DegreeModuleParser.
+     */
     public DegreeModuleParser() {
     }
-
+    /**
+     * Returns the list of DegreeModule objects representing courses.
+     *
+     * @return an ArrayList of DegreeModule objects.
+     */
     public static ArrayList<DegreeModule> getListOfCourses() {
         return courses;
     }
-
+     /**
+     * Returns the list of program names.
+     *
+     * @return an ArrayList of Strings representing the names of programs.
+     */
     public static ArrayList<String> getListOfProgramNames() {
         return namesOfProgramsList;
     }
-
+    /**
+     * Adds a DegreeModule object to the list of courses.
+     *
+     * @param info the DegreeModule object to be added.
+     */
     public static void addCourseToList(DegreeModule info) {
         courses.add(info);
     }
-
+    /**
+     * Adds a program name to the list of program names.
+     *
+     * @param program the name of the program to be added.
+     */
     public static void addNamesOfProgramsToList(String program) {
         namesOfProgramsList.add(program);
     }
-
+    /**
+     * Fetches all degree names and stores them in the namesOfProgramsList.
+     *
+     * @throws MalformedURLException if the URL is malformed.
+     * @throws IOException if there's an error reading from the URL.
+     */
     public static void fetchAllDegreeNames()
             throws MalformedURLException, IOException {
         namesOfProgramsList = new ArrayList<>();
@@ -53,7 +78,13 @@ public class DegreeModuleParser {
             namesOfProgramsList.add(namesOfPrograms);
         }
     }
-
+    /**
+     * Fetches a degree by its study program name and populates the courses list.
+     *
+     * @param studyProgram the name of the study program.
+     * @throws MalformedURLException if the URL is malformed.
+     * @throws IOException if there's an error reading from the URL.
+     */
     public static void fetchDegreeById(String studyProgram)
             throws MalformedURLException, IOException {
         courses = new ArrayList<>();
@@ -72,7 +103,14 @@ public class DegreeModuleParser {
             createDegreeModuleFromJson(groupId);
         }
     }
-
+    /**
+     * Retrieves a JSON course unit by groupId and creates a DegreeModule object.
+     *
+     * @param groupId the groupId of the course unit to be fetched.
+     * @throws MalformedURLException if the URL is malformed.
+     * @throws IOException if there's an error reading from the URL.
+     * @throws JsonSyntaxException if there's an error in JSON syntax.
+     */
     public static void getJsonCourseUnit(String groupId)
         throws MalformedURLException, IOException, JsonSyntaxException {
     // Get the course JSON as a string
@@ -117,7 +155,12 @@ public class DegreeModuleParser {
     // Add the DegreeModule object to the courses list
     courses.add(info);
 }
-    
+     /**
+     * Creates a DegreeModule object from a JSON string based on a groupId.
+     *
+     * @param groupId the groupId of the module to be fetched.
+     * @throws IOException if there's an error reading from the URL.
+     */
     public static void createDegreeModuleFromJson(String groupId) throws IOException {
         String jsonStr = new SisuApiHandler().fetchGroupIdModule(groupId);
         JsonObject root = new Gson().fromJson(jsonStr, JsonArray.class).get(0).getAsJsonObject();
@@ -125,7 +168,7 @@ public class DegreeModuleParser {
         // Get course information from JSON
         String courseType = root.get("type").getAsString();
         String courseName = nameForCourse(root);
-        int courseCredits = creditsForCOurse(root, courseType);
+        int courseCredits = creditsForCourse(root, courseType);
 
         // Create DegreeModule object and add it to courses list
         DegreeModule degreeModule = new DegreeModule(courseName, courseType, groupId, courseCredits) {};
@@ -143,7 +186,9 @@ public class DegreeModuleParser {
             }
         }
     }
-
+     /**
+     *private helper methods
+     */
     private static String nameForCourse(JsonObject root) {
         String nameForCourse = "";
         if (root.get("name").getAsJsonObject().has("en")) {
@@ -153,15 +198,13 @@ public class DegreeModuleParser {
         }
         return nameForCourse;
     }
-
-    private static int creditsForCOurse(JsonObject root, String courseType) {
+    private static int creditsForCourse(JsonObject root, String courseType) {
         int courseCredits = 0;
         if (!("GroupingModule".equals(courseType))) {
             courseCredits = root.get("targetCredits").getAsJsonObject().get("min").getAsInt();
         }
         return courseCredits;
     }
-
     private static ArrayList<JsonObject> collectRuleObjects(JsonObject ruleObj) {
         ArrayList<JsonObject> ruleList = new ArrayList<>();
         if (ruleObj.has("rules")) {

@@ -8,9 +8,9 @@ package fi.tuni.prog3.sisu;
 import java.io.IOException;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-/* 
-manages primary UI
-*/
+/**
+ * The PrimaryView class manages the primary UI.
+ */
 class PrimaryView {
 
     private Tab tab_student;
@@ -18,7 +18,10 @@ class PrimaryView {
     private TabPane tabPane;
     private DisplayStudent displayStudent;
     private DisplayPlan tabDisplayPlan;
-
+    /**
+    * Constructor for the PrimaryView class that creates and initializes UI elements.
+    * @throws IOException if there is an error initializing the DisplayStudent or DisplayPlan objects
+    */
     public PrimaryView() throws IOException {
         // Create UI elements
         tabPane = new TabPane();
@@ -39,6 +42,9 @@ class PrimaryView {
         // Add tabs to TabPane
         tabPane.getTabs().addAll(tab_student, tab_plan);
     }
+    /**
+    * getters and setters
+    */
     public Tab getTab_student() {
         return tab_student;
     }
