@@ -1,5 +1,8 @@
 module fi.tuni.prog3.sisu {
     requires javafx.controls;
-    exports fi.tuni.prog3.sisu;
+    requires javafx.fxml;
     requires com.google.gson;
+    
+    opens fi.tuni.prog3.sisu to javafx.fxml;
+    exports fi.tuni.prog3.sisu;
 }
