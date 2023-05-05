@@ -47,13 +47,13 @@ public class DisplayStudent {
         mainPane.setCenter(formGrid);
         mainPane.setRight(studentInfoDisplay);
         // Add labels and fields to the form grid
-        formGrid.add(new Label("First Name:"), 0, 1);
+        formGrid.add(new Label("Nimi:"), 0, 1);
         formGrid.add(firstNameField, 1, 1);
-        formGrid.add(new Label("Last Name:"), 0, 2);
+        formGrid.add(new Label("Sukunimi:"), 0, 2);
         formGrid.add(lastNameField, 1, 2);
-        formGrid.add(new Label("Student Number:"), 0, 3);
+        formGrid.add(new Label("Opiskelijanumero:"), 0, 3);
         formGrid.add(studentNumberField, 1, 3);
-        formGrid.add(new Label("Study Programme:"), 0, 4);
+        formGrid.add(new Label("Tutkinto:"), 0, 4);
         formGrid.add(studyProgrammeComboBox, 1, 4);
     } 
     
@@ -130,9 +130,9 @@ public class DisplayStudent {
     private void displayStudentInfo() {
         Sisu.getPrimaryView().getTabPlan().setDisable(false);
         studentInfoDisplay.getChildren().clear();
-        Label nameLabel = new Label("Name: " + firstNameField.getText() + " " + lastNameField.getText());
-        Label studentNumberLabel = new Label("Student Number: " + studentNumberField.getText());
-        Label studyProgrammeLabel = new Label("Study Programme: " + studyProgrammeComboBox.getValue());
+        Label nameLabel = new Label("Nimi: " + firstNameField.getText() + " " + lastNameField.getText());
+        Label studentNumberLabel = new Label("Opiskelijanumero: " + studentNumberField.getText());
+        Label studyProgrammeLabel = new Label("Tutkinto: " + studyProgrammeComboBox.getValue());
         studentInfoDisplay.getChildren().addAll(nameLabel, studentNumberLabel, studyProgrammeLabel);
         studentInfoDisplay.setSpacing(10);
         studentInfoDisplay.setPadding(new Insets(10, 10, 10, 10));
